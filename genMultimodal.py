@@ -44,7 +44,11 @@ def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames"
             for videoFramesFolder in videoFrameFolders:
                 found = findVideo(videoFramesFolder.split(os.sep)[-1], output + os.sep +inputFrameFolder.split(os.sep)[-1])
                 if(found!= ""):
-                    removeAllFiles(videoFramesFolder)
+                    cwd= os.getcwd()
+                    print(found)
+                    #os.chdir()
+                    #os.system()
+                    #removeAllFiles(videoFramesFolder)
 
 if __name__ == '__main__':
     startGeneration()

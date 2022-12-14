@@ -33,11 +33,12 @@ def extractFrames(inpath, outpath,  fileOutPath ,resolution = (1080,1920), lette
       # Capture frame-by-frame
       ret, frame = cap.read()
       if ret == True:
-    	  if(frame.shape[0:2]!=resolution and letterBox ==1):
-    		  frame = letterbox_image(frame, [1920,1080])
-    	  #cv2.imshow('Frame',frame)
-    	  cv2.imwrite(outpath+ "/" + str(counter)+".jpg", frame)
-    	  counter+=1
+          if(frame.shape[0:2]!=resolution and letterBox ==1):
+        	  frame = letterbox_image(frame, [1920,1080])
+          frame = cv2.resize(frame, (640,480))
+          #cv2.imshow('Frame',frame)
+          cv2.imwrite(outpath+ "/" + str(counter)+".jpg", frame)
+          counter+=1
     	  #if cv2.waitKey(25) & 0xFF == ord('q'):
     	#	  break
       else:

@@ -21,7 +21,7 @@ def extractVideoFrames(file, outputPath,fileOutPath):
     extractFrames(file, outDir,fileOutPath, resolution=(1080, 1920), letterBox=0)
 
 
-def startExtraction(inputPath = "inputVideos",outputPath = "extractedFrames", output = "output",threads = 2, batch =2):
+def startExtraction(inputPath = "inputVideos",outputPath = "extractedFrames", output = "output", batch =2):
     inputFolders = onlyfolders(inputPath)
     print("Found folders: ", inputFolders)
     try:
@@ -41,7 +41,7 @@ def startExtraction(inputPath = "inputVideos",outputPath = "extractedFrames", ou
                     break
                 print(inputFolder,": Found files ", len(videoFiles))
                 t = []
-                for i in range(threads):
+                for i in range(batch):
                     if(len(videoFiles)>0):
                         video = videoFiles.pop()
                         fileOutPath = output + os.sep + inputFolder.split(os.sep)[-1]
