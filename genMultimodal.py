@@ -15,7 +15,11 @@ def findVideo(name,inputVideos):
         if( name in video):
             return video
     return ""
-
+def runCodeFormer(found, weight = 0.8):
+    os.chdir('CodeFormer')
+    command = 'python inference_codeformer.py -w ' + str(weight) + ' --input_path "../'+ found + '"'
+    print(command)
+    os.system(command)
 def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames", output = "output" ):
     try:
         os.mkdir(output)
@@ -45,9 +49,8 @@ def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames"
                 found = findVideo(videoFramesFolder.split(os.sep)[-1], output + os.sep +inputFrameFolder.split(os.sep)[-1])
                 if(found!= ""):
                     cwd= os.getcwd()
-                    print(found)
-                    #os.chdir()
-                    #os.system()
+                    print(videoFramesFolder,found)
+                    runCodeFormer(videoFramesFolder, weight = 0.8)
                     #removeAllFiles(videoFramesFolder)
 
 if __name__ == '__main__':
