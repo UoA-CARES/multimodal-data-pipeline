@@ -195,7 +195,6 @@ if __name__ == '__main__':
             print(f'\tdetect {num_det_faces} faces')
             # align and warp each face
             face_helper.align_warp_face()
-
         # face restoration for each cropped face
         for idx, cropped_face in enumerate(face_helper.cropped_faces):
             # prepare data
@@ -251,6 +250,7 @@ if __name__ == '__main__':
         if not args.has_aligned and restored_img is not None:
             if args.suffix is not None:
                 basename = f'{basename}_{args.suffix}'
+            basename =basename.zfill(11)
             save_restore_path = os.path.join(result_root, 'final_results', f'{basename}.png')
             imwrite(restored_img, save_restore_path)
 

@@ -14,45 +14,37 @@ def extractVideoFrames(file, outputPath,fileOutPath):
     except:
         pass
     print(fileOutPath)
-    try:
-        os.mkdir(fileOutPath)
-    except:
-        pass
+
     extractFrames(file, outDir,fileOutPath, resolution=(1080, 1920), letterBox=0)
 
 
 def startExtraction(inputPath = "inputVideos",outputPath = "extractedFrames", output = "output", batch =2):
-    inputFolders = onlyfolders(inputPath)
-    print("Found folders: ", inputFolders)
+
     try:
         os.mkdir(outputPath)
     except:
         pass
-    for inputFolder in inputFolders:
-        try:
-            os.makedirs(outputPath + os.sep + inputFolder.replace(inputPath,""))
-        except:
-            pass
-        while(1):
-            extractedVideoFrames = onlyfolders(outputPath + os.sep + inputFolder.replace(inputPath,"")  )
-            if(len(extractedVideoFrames)<batch):
-                videoFiles = onlyfiles(inputFolder)
-                if(len(videoFiles)==0):
-                    break
-                print(inputFolder,": Found files ", len(videoFiles))
-                t = []
-                for i in range(batch):
-                    if(len(videoFiles)>0):
-                        video = videoFiles.pop()
-                        fileOutPath = output + os.sep + inputFolder.split(os.sep)[-1]
-                        process = Process(target= extractVideoFrames, args = ( video, outputPath + os.sep + inputFolder.replace(inputPath,""),fileOutPath ))
-                        process.start()
-                        t.append(process)
-                for i in t:
-                    i.join()
 
-            time.sleep(1)
-        removeAllFiles(inputFolder)
+    while(1):
+        extractedVideoFrames = onlyfolders(outputPath  )
+        if(len(extractedVideoFrames)<batch):
+            print(extractedVideoFrames, batch)
+            videoFiles = onlyfiles(inputPath)
+            if(len(videoFiles)==0):
+                break
+            t = []
+            for i in range(batch):
+                if(len(videoFiles)>0):
+                    video = videoFiles.pop()
+                    fileOutPath = output + os.sep + video.split(os.sep)[-1]
+                    process = Process(target= extractVideoFrames, args = ( video, outputPath ,fileOutPath ))
+                    process.start()
+                    t.append(process)
+            for i in t:
+                i.join()
+
+        time.sleep(1)
+    #removeAllFiles(inputFolder)
 
     print("Finished extracting frames!!!")
 

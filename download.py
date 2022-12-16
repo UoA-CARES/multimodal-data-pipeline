@@ -1,5 +1,6 @@
 import os
-downloadFolder = "./inputVideos/downloads"
+import shutil
+downloadFolder = "./downloads"
 try:
     os.makedirs(downloadFolder, exist_ok=True)
 except:
@@ -32,4 +33,5 @@ for url in urls:
 	os.system(command)
 	print("=============")
 os.chdir(currentDir)
+shutil.move(downloadFolder, "inputFolder")
 os.system("python main.py")
