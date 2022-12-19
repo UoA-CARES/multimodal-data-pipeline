@@ -54,7 +54,7 @@ def cleanCodeformer():
         removeAllFiles("CodeFormer/results/")
     except:
         pass
-def runCodeFormer(videoFrameFolder,found, weight = 0.8):
+def runCodeFormer(videoFrameFolder,found, weight = 0.8, backgroundUpscale = 0):
     currentDir = os.getcwd()
     imgs = onlyfiles(videoFrameFolder)
     img = imgs[0]
@@ -62,9 +62,11 @@ def runCodeFormer(videoFrameFolder,found, weight = 0.8):
     w,h,c = img.shape
 
     os.chdir('CodeFormer')
-    command = 'python inference_codeformer.py -w ' + str(weight) + ' --input_path "../'+ videoFrameFolder + '"'
+    command = 'python inference_codeformer.py -w ' + str(weight) + ' --face_upsample --input_path "../'+ videoFrameFolder + '"'
     if(w>1920 or h> 1920):
         command += " --upscale 1"
+    if(backgroundUpscale ==1):
+        command += " --bg_upsampler realesrgan"
     print(command)
     os.system(command)
     os.chdir(currentDir)
@@ -72,7 +74,7 @@ def runCodeFormer(videoFrameFolder,found, weight = 0.8):
 
     renderVideo(renderPath, found, mergeAudio=1 )
     cleanCodeformer()
-def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames", output = "output" ):
+def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames", output = "output", backgroundUpscale = 0 ):
     try:
         os.mkdir(output)
     except:
@@ -91,10 +93,10 @@ def startGeneration(inputVideos = "inputVideos", inputFrames = "extractedFrames"
             if(found!= ""):
                 cwd= os.getcwd()
                 print("a",videoFramesFolder,found)
-                runCodeFormer(videoFramesFolder,found, weight = 0.8)
+                runCodeFormer(videoFramesFolder,found, weight = 0.8, backgroundUpscale = backgroundUpscale)
                 print("removing ", videoFramesFolder)
                 removeAllFiles("." + os.sep + videoFramesFolder)
 
 
 if __name__ == '__main__':
-    startGeneration()
+    startGeneration(backgroundUpscale = 1)
