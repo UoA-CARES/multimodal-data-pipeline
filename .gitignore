@@ -15,3 +15,4 @@ labels.txt
 /extractedAudio/*
 *.webm
 *.txt
+/LapDepth/pretrained/*
